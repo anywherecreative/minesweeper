@@ -148,6 +148,10 @@ $(document).ready(function() {
     }
 
     $('#board BUTTON').click(function() {
+        if($(this).hasClass('flag')) {
+            return;
+        }
+
         var square = board[$(this).data('row')][$(this).data('col')];
         if(square == "M") {
             alert('you lose!');
@@ -192,7 +196,20 @@ $(document).ready(function() {
             }
         }
 
+    });
+
+    $('#board BUTTON').contextmenu(function(e) {
+        e.preventDefault();
+        if($(this).hasClass('flag')) {
+            $(this).removeClass('flag');
+            $(this).text('');
+        }
+        else {
+            $(this).addClass('flag');
+            $(this).html('<i class="fas fa-flag fa-2x"></i>');
+        }
     })
+
 
 });
 
