@@ -161,7 +161,6 @@ $(document).ready(function() {
         if(square == 0) {
             checkSpace = [];
             checkSpace.push([$(this).data('row'),$(this).data('col')]);
-            console.log(checkSpace);
             for(var a = 0; a <= checkSpace.length;a++) {
                 if($('[data-row=' + checkSpace[a][0] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled') != 'disabled') {
                     $('[data-row=' + checkSpace[a][0] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled','disabled');
