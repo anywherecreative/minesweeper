@@ -1,0 +1,14 @@
+#board {
+    width:450px;
+    height:450px;
+    padding:0;
+    display:flex;
+    flex-wrap: wrap;
+
+}
+
+#board BUTTON {
+    width:50px;
+    height:50px;
+    margin:0;
+}
