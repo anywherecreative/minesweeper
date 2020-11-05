@@ -211,6 +211,9 @@ $(document).ready(function() {
 
     $('#board BUTTON').contextmenu(function(e) {
         e.preventDefault();
+        if(lost) {
+            return false;
+        }
         if($(this).hasClass('flag')) {
             $(this).removeClass('flag');
             $(this).text('');
