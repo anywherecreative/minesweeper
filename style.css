@@ -12,6 +12,10 @@
     height:50px;
     margin:0;
 }
+/*
+#board BUTTON.clear {
+	background:#404040;
+}*/
 
 .flag {
     color:#040;

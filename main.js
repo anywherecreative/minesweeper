@@ -1,13 +1,20 @@
 
-var NUM_MINES = 20;
+var NUM_MINES = 15;
 var BOARD_SIZE =  9*9;
 var BOARD_WIDTH = 9;
 var board = [];
-var mineChance = Math.floor(NUM_MINES/BOARD_SIZE*100);
 var checkSpace = [];
 var totalMines = 0;
+var lost = false;
 
 $(document).ready(function() {
+    var mines = {};
+    for(var a = 0;a < NUM_MINES;a++) {
+        var x = getRand(0,BOARD_WIDTH-1)+"";
+        var y = getRand(0,(Math.ceil(BOARD_SIZE/BOARD_WIDTH)-1))+"";
+        mines[x+""+y] = "M";
+    }
+
     for(var a = 0;a < BOARD_SIZE;a++) {
         var row = Math.ceil(a/BOARD_WIDTH)-1;
         var col =  (a%BOARD_WIDTH);
@@ -18,7 +25,7 @@ $(document).ready(function() {
             board[row] = [];
         }
         // var extra =
-        if(getRand(0,100) < mineChance && totalMines < NUM_MINES) {
+        if(mines.hasOwnProperty(row+""+col)) {
             board[row][col] = "M";
             totalMines++;
             //add markers
@@ -144,28 +151,32 @@ $(document).ready(function() {
         if (col == 0) {
             row++;
         }
-        $('#board').append('<button data-row="' + row + '" data-col="' + col +'">' + row + "/" + col + "<br />" + board[row][col] + '</button>');
+        $('#board').append('<button data-row="' + row + '" data-col="' + col +'">&nbsp;</button>');
     }
 
     $('#board BUTTON').click(function() {
+        if(lost) {
+            return;
+        }
         if($(this).hasClass('flag')) {
             return;
         }
 
         var square = board[$(this).data('row')][$(this).data('col')];
         if(square == "M") {
-            alert('you lose!');
+           runLoss($(this));
         }
         if(square > 0) {
             $(this).text(square);
             $(this).attr('disabled','disabled');
             $(this).addClass('marker-'+square)
+            $(this).addClass('clear')
         }
 
         if(square == 0) {
             checkSpace = [];
             checkSpace.push([$(this).data('row'),$(this).data('col')]);
-            for(var a = 0; a <= checkSpace.length;a++) {
+            for(var a = 0; a < checkSpace.length;a++) {
                 if($('[data-row=' + checkSpace[a][0] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled') != 'disabled') {
                     $('[data-row=' + checkSpace[a][0] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled','disabled');
                     //check top
@@ -175,7 +186,7 @@ $(document).ready(function() {
                         }
                     }
                     //check bottom
-                    if(checkSpace[a][0] < Math.ceil(BOARD_SIZE/BOARD_WIDTH)) {
+                    if(checkSpace[a][0] < (Math.ceil(BOARD_SIZE/BOARD_WIDTH)-1)) {
                         if(board[checkSpace[a][0]+1][checkSpace[a][1]] == 0) {
                             checkSpace.push([checkSpace[a][0]+1,checkSpace[a][1]]);
                         }
@@ -219,4 +230,22 @@ function getRand(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function runLoss(square) {
+    lost = true;
+    square.addClass('explode');
+    square.html('<i class="fas fa-skull-crossbones fa-2x"></i>');
+    $('#board BUTTON').each(function() {
+        var square = board[$(this).data('row')][$(this).data('col')];
+        if(square == "M" && !$(this).hasClass('explode')) {
+            $(this).html('<i class="fas fa-bomb fa-2x"></i>');
+        }
+
+        /*
+            if undiscovered mine, show mine
+            if flagged mine keep flag
+            if incorrect flag with no mine, show X over flag
+         */
+    })
 }
