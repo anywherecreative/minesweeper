@@ -1,5 +1,5 @@
 
-var NUM_MINES = 15;
+var NUM_MINES = 7;
 var BOARD_SIZE =  9*9;
 var BOARD_WIDTH = 9;
 var board = [];
@@ -184,11 +184,19 @@ $(document).ready(function() {
                         if(board[checkSpace[a][0]-1][checkSpace[a][1]] == 0) {
                             checkSpace.push([checkSpace[a][0]-1,checkSpace[a][1]]);
                         }
+                        else if(board[checkSpace[a][0]-1][checkSpace[a][1]] != "M") {
+                            $('[data-row=' + [checkSpace[a][0]-1] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled','disabled');
+                            $('[data-row=' + [checkSpace[a][0]-1] + '][data-col=' + checkSpace[a][1] + ']').text(board[checkSpace[a][0]-1][checkSpace[a][1]]);
+                        }
                     }
                     //check bottom
                     if(checkSpace[a][0] < (Math.ceil(BOARD_SIZE/BOARD_WIDTH)-1)) {
                         if(board[checkSpace[a][0]+1][checkSpace[a][1]] == 0) {
                             checkSpace.push([checkSpace[a][0]+1,checkSpace[a][1]]);
+                        }
+                        else if(board[checkSpace[a][0]+1][checkSpace[a][1]] != "M") {
+                            $('[data-row=' + [checkSpace[a][0]+1] + '][data-col=' + checkSpace[a][1] + ']').attr('disabled','disabled');
+                            $('[data-row=' + [checkSpace[a][0]+1] + '][data-col=' + checkSpace[a][1] + ']').text(board[checkSpace[a][0]+1][checkSpace[a][1]]);
                         }
                     }
                     //check left
@@ -196,11 +204,19 @@ $(document).ready(function() {
                         if(board[checkSpace[a][0]][checkSpace[a][1]-1] == 0) {
                             checkSpace.push([checkSpace[a][0],checkSpace[a][1]-1]);
                         }
+                        else if(board[checkSpace[a][0]][checkSpace[a][1]-1] != "M") {
+                            $('[data-row=' + [checkSpace[a][0]] + '][data-col=' + checkSpace[a][1]-1 + ']').attr('disabled','disabled');
+                            $('[data-row=' + [checkSpace[a][0]] + '][data-col=' + checkSpace[a][1]-1 + ']').text(board[checkSpace[a][0]][checkSpace[a][1]-1]);
+                        }
                     }
                     //check right
                     if(checkSpace[a][1] < (BOARD_WIDTH-1)) {
                         if(board[checkSpace[a][0]][checkSpace[a][1]+1] == 0) {
                             checkSpace.push([checkSpace[a][0],checkSpace[a][1]+1]);
+                        }
+                        else if(board[checkSpace[a][0]][checkSpace[a][1]+1] != "M") {
+                            $('[data-row=' + [checkSpace[a][0]] + '][data-col=' + checkSpace[a][1]+1 + ']').attr('disabled','disabled');
+                            $('[data-row=' + [checkSpace[a][0]] + '][data-col=' + checkSpace[a][1]+1 + ']').text(board[checkSpace[a][0]][checkSpace[a][1]+1]);
                         }
                     }
                 }
