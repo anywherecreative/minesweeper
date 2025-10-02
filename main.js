@@ -19,8 +19,7 @@ $(document).ready(function() {
         var row = Math.ceil(a/BOARD_WIDTH)-1;
         var col =  (a%BOARD_WIDTH);
         if(col == 0) {
-            row++;
-        }
+
         if(board[row] == null) {
             board[row] = [];
         }
@@ -38,7 +37,7 @@ $(document).ready(function() {
                 if(col > 0) {
                     //add 1 to the top left
                     if(board[row-1][col-1] != "M") {
-                        if(board[row-1][col-1] = null) {
+                        if(board[row-1][col-1] == null) {
                             board[row-1][col-1]++;
                         }
                         else {
